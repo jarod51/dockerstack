@@ -1,12 +1,8 @@
 version: "3.1"
 
 services:
-    adminer:
-        image: adminer
-        restart: always
-        ports:
-            - 8080:8080
     dbPostgres:
+        container_name: postgres
         image: postgres
         restart: always
         ports:
@@ -16,14 +12,16 @@ services:
             POSTGRES_PASSWORD: changeme
             POSTGRES_DB: mydb
     dbMysql:
-        image: mysql
+        container_name: mysql
+        image: mysql:5.7
         restart: always
         ports:
             - 3306:3306
         environment:
             MYSQL_ROOT_PASSWORD: changeme
             MYSQL_DATABASE: mydb
-    dbMongo:
+    dbMongodb:
+        container_name: mongodb
         image: mongo
         restart: always
         ports:
@@ -31,3 +29,20 @@ services:
         environment:
             MONGO_INITDB_ROOT_USERNAME: root
             MONGO_INITDB_ROOT_PASSWORD: changeme
+    adminer:
+        container_name: adminer
+        image: adminer
+        restart: always
+        ports:
+            - 8080:8080
+    phpmyadmin:
+        container_name: phpmyadmin
+        image: phpmyadmin/phpmyadmin:latest
+        restart: always
+        ports:
+            - 8181:80
+        environment:
+            MYSQL_USERNAME: root
+            MYSQL_ROOT_PASSWORD: changeme
+            PMA_HOST: mysql
+            PMA_PORT: 3306
